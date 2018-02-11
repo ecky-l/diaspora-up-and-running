@@ -21,7 +21,7 @@ diaspora_system_group: diaspora
 diaspora_system_password: "$6$gIfZDcwDqM.LUtab$W0gfIAXQ1lksYsUUfwpki83kERYEJcZSCe6Nd9u3gT52F.ini8I55yc.B2ypo65lmigdiwvw.xmaUw23woKPE1"
 
 diaspora_version: "v0.7.3.1"
-diaspora_hostname: "{{ testing }}my.pod.address"
+diaspora_hostname: "my.{{ testing }}pod.address"
 diaspora_rewriteurl: "{{ testing_rewriteurl }}my\\.pod\\.address"
 diaspora_url: "https://{{ diaspora_hostname }}/"
 diaspora_db_host: "172.17.0.1"
