@@ -1,0 +1,11 @@
+#
+# shutdown
+#
+---
+- name: shutdown httpd proxy
+  service:
+    name: httpd
+    state: stopped
+  register: cmd_result
+  failed_when: "'failed' in cmd_result.msg"
+...

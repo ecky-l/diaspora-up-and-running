@@ -1,0 +1,22 @@
+#
+# startup and enable mail services
+#
+---
+- name: start and enable spamassassin service
+  service:
+    name: spamassassin
+    state: started
+    enabled: true
+
+- name: start and enable exim service
+  service:
+    name: exim
+    state: started
+    enabled: true
+
+- name: start and enable dovecot service
+  service:
+    name: dovecot
+    state: started
+    enabled: true
+...

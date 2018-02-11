@@ -1,0 +1,19 @@
+#
+# Firewall rule tasks for proxy
+#
+---
+- name: add firewall rule for http
+  firewalld:
+    zone: dmz
+    service: http
+    permanent: true
+    state: enabled
+    immediate: yes
+
+- name: add firewall rule for https
+  firewalld:
+    zone: dmz
+    service: https
+    permanent: true
+    state: enabled
+    immediate: yes

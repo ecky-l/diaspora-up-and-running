@@ -1,0 +1,6 @@
+---
+dependencies:
+  - { role: httpd_proxy }
+  - { role: database }
+  - { role: docker }
+...

@@ -1,0 +1,96 @@
+#
+#
+#
+---
+testing: "testing."
+testing_rewriteurl: 'testing\.'
+
+# global firewall zone. should not be "trusted" on a production system
+firewalld_zone: public
+
+docker_repoprefix: docker.myurl.tld
+
+diaspora_system_user: diaspora
+diaspora_system_userid: 1011
+diaspora_system_group: diaspora
+
+# crypted password, applied to user module
+# see http://docs.ansible.com/ansible/latest/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+#
+# The value here is "change_me" (w/o quotes)
+diaspora_system_password: "$6$gIfZDcwDqM.LUtab$W0gfIAXQ1lksYsUUfwpki83kERYEJcZSCe6Nd9u3gT52F.ini8I55yc.B2ypo65lmigdiwvw.xmaUw23woKPE1"
+
+diaspora_version: "v0.7.3.1"
+diaspora_hostname: "{{ testing }}my.pod.address"
+diaspora_rewriteurl: "{{ testing_rewriteurl }}my\\.pod\\.address"
+diaspora_url: "https://{{ diaspora_hostname }}/"
+diaspora_db_host: "172.17.0.1"
+diaspora_redis_host: "redis://172.17.0.1"
+
+diaspora_routes_startpage: "home#default"
+diaspora_assets_serve: "true"
+
+diaspora_server_listen: "0.0.0.0:3000"
+diaspora_server_rails_environment: "production"
+
+diaspora_chat_enabled: "true"
+diaspora_chat_server_bosh_proxy: "true"
+diaspora_chat_server_bosh_address: "172.17.0.1"
+diaspora_chat_server_bosh_bind: "/http-bind"
+
+diaspora_privacy_statistics_user_counts: "true"
+diaspora_privacy_statistics_post_counts: "true"
+diaspora_privacy_statistics_comment_counts: "true"
+
+diaspora_settings_enable_registrations: "false"
+diaspora_settings_autofollow_on_join: "false"
+diaspora_settings_autofollow_on_join_user: "hq@pod.diaspora.software"
+diaspora_settings_invitations_open: "true"
+diaspora_settings_invitations_count: 10
+diaspora_settings_paypal_donations_enable: "false"
+diaspora_settings_paypal_donations_currency: "USD"
+diaspora_settings_paypal_donations_paypal_hosted_button_id: "change_me"
+diaspora_settings_bitcoin_address: "1BSjZQcENHJ4WK6DhrmvpkefU8uqqpFGnK"
+diaspora_settings_captcha_enable: "true"
+diaspora_settings_captcha_image_size: "120x20"
+diaspora_settings_captcha_captcha_length: 8
+diaspora_settings_captcha_image_style: "random"
+diaspora_settings_captcha_distortion: "medium"
+diaspora_settings_terms_enable: "true"
+diaspora_settings_terms_jurisdiction: "Germany"
+diaspora_settings_maintenance_remove_old_users_enable: "false"
+diaspora_settings_maintenance_remove_old_users_after_days: 730
+diaspora_settings_maintenance_remove_old_users_warn_days: 30
+diaspora_settings_default_metas_title: "diaspora* social network"
+diaspora_settings_default_metas_description: "diaspora* is the online social world where you are in control."
+
+diaspora_mail_enable: "true"
+
+# the sender address for mail from diaspora. Must be valid with the mail server
+diaspora_mail_sender_address: "{{ diaspora_system_user }}@{{ diaspora_hostname }}"
+diaspora_mail_method: "smtp"
+
+# your smtp server
+diaspora_mail_smtp_host: "diaspora_hostname"
+diaspora_mail_smtp_port: 587
+diaspora_mail_smtp_authentication: "plain"
+
+# The user as which the pod sends mail. Must be an authorized user on your smtp server
+diaspora_mail_smtp_username: "{{ diaspora_system_user }}"
+
+# Password for mail user. Unfortunately in clear text :(
+diaspora_mail_smtp_password: "change_me"
+
+diaspora_mail_smtp_domain: "{{ diaspora_hostname }}"
+diaspora_mail_smtp_openssl_verify_mode: "none"
+
+diaspora_admins_account: "your_admin_account"
+diaspora_admins_podmin_email: "your_admin_mailadress"
+
+diaspora_relay_outbound_send: "true"
+diaspora_relay_outbound_url: "https://relay.iliketoast.net/receive/public"
+diaspora_relay_inbound_subscribe: "true"
+diaspora_relay_inbound_scope: "tags"
+diaspora_relay_inbound_include_user_tags: "true"
+diaspora_relay_inbound_pod_tags: "linux,diaspora"
+...

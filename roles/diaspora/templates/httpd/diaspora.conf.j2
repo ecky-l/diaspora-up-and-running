@@ -1,0 +1,45 @@
+
+<VirtualHost {{ diaspora_hostname }}:80>
+	ServerName {{ diaspora_hostname }}
+	RedirectPermanent / https://{{ diaspora_hostname }}/
+</VirtualHost>
+
+<VirtualHost {{ diaspora_hostname }}:443>
+	ServerName {{ diaspora_hostname }}
+	DocumentRoot /var/local/diaspora/public/
+
+	RewriteEngine On
+
+	RewriteCond %{REQUEST_URI} ^/http-bind
+	RewriteRule ^/(http\-bind.*)$ balancer://chat%{REQUEST_URI} [P,QSA,L]
+	<Proxy balancer://chat>
+		BalancerMember http://localhost:5280
+	</Proxy>
+
+	RewriteCond %{HTTP_HOST} !^{{ diaspora_rewriteurl }} [NC]
+	RewriteRule ^/(.*)$ https://{{ diaspora_rewriteurl }}/$1 [L,R,QSA]
+
+	RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+	RewriteRule ^/(.*)$ balancer://upstream%{REQUEST_URI} [P,QSA,L]
+ 
+	<Proxy balancer://upstream>
+		BalancerMember http://127.0.0.1:3000
+	</Proxy>
+
+	ProxyRequests Off
+	ProxyVia On
+	ProxyPreserveHost On
+	RequestHeader set X_FORWARDED_PROTO https
+ 
+	<Proxy *>
+		Require all granted
+	</Proxy>
+ 
+	<Directory /var/local/diaspora/public/>
+		Options -MultiViews
+		Require all granted
+	</Directory>
+
+	# letsencrypt certificate entries go here
+</VirtualHost> 
+

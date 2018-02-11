@@ -1,0 +1,115 @@
+#
+# Role to build diaspora-build and diaspora image
+#
+---
+- name: copy diaspora-build docker source directory to host
+  copy:
+    src: diaspora-build
+    dest: /usr/local/src/
+
+- name: build the diaspora-build docker image 
+  docker_image:
+    path: /usr/local/src/diaspora-build
+    name: "{{ docker_repoprefix }}/diaspora-build"
+
+- name: make directory for diaspora build output
+  file:
+    path: /usr/local/src/diaspora/build
+    owner: diaspora
+    group: diaspora
+    state: directory
+
+- name: make directory for diaspora build config
+  file:
+    path: /usr/local/src/diaspora/build/config
+    owner: diaspora
+    group: diaspora
+    state: directory
+
+- name: template the diaspora Dockerfile to host
+  template:
+    src: diaspora/Dockerfile.j2
+    dest: /usr/local/src/diaspora/Dockerfile
+
+- name: template out database.yml to config build output directory
+  template:
+    src: config/database.yml.j2
+    dest: /usr/local/src/diaspora/build/config/database.yml
+    owner: diaspora
+    group: diaspora
+
+- name: template out diaspora.yml to config build output directory
+  template:
+    src: config/diaspora.yml.j2
+    dest: /usr/local/src/diaspora/build/config/diaspora.yml
+    owner: diaspora
+    group: diaspora
+
+- name: template out routes.rb to config build output directory
+  template:
+    src: config/routes.rb.j2
+    dest: /usr/local/src/diaspora/build/config/routes.rb
+    owner: diaspora
+    group: diaspora
+
+- name: copy our ImageMagick policy.xml to diaspora docker src
+  copy:
+    src: ImageMagick/policy.xml
+    dest: /usr/local/src/diaspora/
+
+- name: check if diaspora must be built. That is, if diaspora-{{ diaspora_version }}.tar.gz exists
+  stat:
+    path: "/usr/local/src/diaspora/build/diaspora-{{ diaspora_version }}.tar.gz"
+  register: diasp_tgz
+
+- name: take backup of diaspora production database, if a new must be built (just to be paranoid)
+  become: yes
+  become_user: postgres
+  command: "pg_dump diaspora_production -Ft -f diaspora_production.{{ testing }}{{ '%Y%m%d%H%M%S' | strftime }}.dump"
+
+- name: use a diaspora-build container to build diaspora version {{ diaspora_version }}
+  docker_container:
+    name: diaspora_build
+    image: "{{ docker_repoprefix }}/diaspora-build"
+    detach: no
+    interactive: yes
+    volumes:
+      - "/usr/local/src/diaspora/build:/var/local/diaspora"
+    env:
+      git_tag: "{{ diaspora_version }}"
+    state: started
+  when: not diasp_tgz.stat.exists
+
+- name: delete the build container
+  docker_container:
+    name: diaspora_build
+    state: absent
+
+- name: build the diaspora image itself
+  docker_image:
+    name: "{{ docker_repoprefix }}/diaspora"
+    tag: "{{ diaspora_version }}"
+    path: /usr/local/src/diaspora
+
+- name: ensure the diaspora-uploads volume exists
+  docker_volume:
+    name: diaspora-uploads
+
+- name: ensure the diaspora-logs volume exists
+  docker_volume:
+    name: diaspora-logs
+
+- name: diaspora-uploads volume must be owned by diaspora
+  file:
+    path: "/var/lib/docker/volumes/diaspora-uploads/_data"
+    state: directory
+    owner: diaspora
+    group: diaspora
+
+- name: diaspora-logs volume must be owned by diaspora
+  file:
+    path: "/var/lib/docker/volumes/diaspora-logs/_data"
+    state: directory
+    owner: diaspora
+    group: diaspora
+...

@@ -1,0 +1,12 @@
+#
+# test playbook
+#
+---
+- hosts: local
+  gather_facts: yes
+  any_errors_fatal: true
+  remote_user: root
+  roles:
+    - mail # optional
+    - diaspora
+...

@@ -1,0 +1,16 @@
+#
+# startup httpd if possible
+#
+---
+- name: check if the letsencrypt directory is present. If not, httpd must not be started
+  stat:
+    path: /etc/letsencrypt
+  register: letsencrypt_dir
+
+- name: start and enable httpd if certificates are present. If not, create them with certbot first.
+  service:
+    name: httpd
+    state: restarted
+    enabled: true
+  when: letsencrypt_dir.stat.exists
+...

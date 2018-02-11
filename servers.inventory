@@ -1,0 +1,15 @@
+# ===========================================================
+# myservers inventory
+# ===========================================================
+
+# edit that to be your productive server
+[productive]
+localhost
+
+# edit that to be your staging server
+[staging]
+localhost
+
+# edit that to be your local test instance, e.g. VM
+[local]
+192.168.2.59

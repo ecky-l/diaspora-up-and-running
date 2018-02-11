@@ -1,0 +1,32 @@
+#
+# base setup
+#
+---
+- name: install EPEL
+  yum:
+    name: epel-release
+    state: latest
+
+- name: install some basic stuff that is frequently needed
+  yum:
+    name: htop,yum-utils,deltarpm,wget,vim,lsof,python2-pip,libsemanage-python
+    state: latest
+
+- name: yum update
+  yum:
+    name: '*'
+    state: latest
+
+- name: install recent pexpect and libsemanage-python modules
+  pip:
+    name: pexpect
+    state: latest
+
+- name: ensure the firewalld is enabled and started
+  service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: set default firewall zone to {{ firewalld_zone }}
+  command: "firewall-cmd --set-default-zone={{ firewalld_zone }}"

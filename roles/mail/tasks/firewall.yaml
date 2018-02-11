@@ -1,0 +1,35 @@
+#
+# Firewall rule tasks for mail
+#
+---
+- name: add firewall rule for smtp
+  firewalld:
+    zone: "{{ firewalld_zone }}"
+    service: smtp
+    permanent: true
+    state: enabled
+    immediate: yes
+
+- name: add firewall rule for smtps
+  firewalld:
+    zone: "{{ firewalld_zone }}"
+    service: smtps
+    permanent: true
+    state: enabled
+    immediate: yes
+
+- name: add firewall rule for smtp-submission
+  firewalld:
+    zone: "{{ firewalld_zone }}"
+    service: smtp-submission
+    permanent: true
+    state: enabled
+    immediate: yes
+
+- name: add firewall rule for imaps
+  firewalld:
+    zone: "{{ firewalld_zone }}"
+    service: imaps
+    permanent: true
+    state: enabled
+    immediate: yes

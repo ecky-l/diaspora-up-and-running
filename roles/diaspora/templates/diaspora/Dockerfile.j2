@@ -1,0 +1,22 @@
+FROM centos:7
+ENV diaspora_version {{ diaspora_version }}
+{% raw %}
+RUN useradd -m -d /var/local/diaspora -u 1011 diaspora
+COPY --chown=diaspora:diaspora build/diaspora-${diaspora_version}.tar.gz /tmp/
+RUN yum -y reinstall filesystem && yum -y update && \
+	yum -y install epel-release && \
+	yum -y install git libcurl libxml2 libffi libxslt wget ImageMagick \
+		nodejs postgresql-libs which bzip2 readline sqlite libyaml openssl && \
+	yum clean all && rm -rf /var/cache/yum && \
+    tar -xvz -C /var/local/diaspora --preserve-permissions --same-owner \
+    	-f /tmp/diaspora-${diaspora_version}.tar.gz && \
+    rm -f /tmp/diaspora-${diaspora_version}.tar.gz
+
+COPY policy.xml /etc/ImageMagick/policy.xml
+
+VOLUME /var/local/diaspora/diaspora/public/uploads
+VOLUME /var/local/diaspora/diaspora/log
+USER diaspora:diaspora
+WORKDIR /var/local/diaspora/diaspora
+ENTRYPOINT ["/bin/bash", "-lc", "source /var/local/diaspora/.bash_profile && ./script/server"]
+{% endraw %}

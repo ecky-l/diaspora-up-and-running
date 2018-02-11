@@ -1,0 +1,10 @@
+#
+# Firewall tasks for docker
+#
+- name: put docker0 interface in trusted firewall zone
+  firewalld:
+    zone: trusted
+    interface: docker0
+    permanent: true
+    state: enabled
+    immediate: yes

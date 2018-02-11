@@ -1,0 +1,25 @@
+#
+# shutdown mail services
+#
+---
+- name: shutdown spamassassin service
+  service:
+    name: spamassassin
+    state: stopped
+  register: cmd_result
+  failed_when: "'failed' in cmd_result.msg"
+
+- name: shutdown exim service
+  service:
+    name: exim
+    state: stopped
+  register: cmd_result
+  failed_when: "'failed' in cmd_result.msg"
+
+- name: shutdown dovecot service
+  service:
+    name: dovecot
+    state: stopped
+  register: cmd_result
+  failed_when: "'failed' in cmd_result.msg"
+...

@@ -1,0 +1,53 @@
+#
+# Role to install proper docker version
+#
+---
+- name: make sure the official docker is uninstalled
+  yum:
+    name: docker,docker-common,docker-engine
+    state: absent
+
+- name: Add docker-ce repository
+  yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - $basearch
+    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+    enabled: yes
+    gpgcheck: true
+
+- name: copy gpg key of docker repository
+  copy:
+    src: RPM-GPG-KEY-docker-ce
+    dest: /etc/pki/rpm-gpg/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: import gpg key of docker-ce repository
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-docker-ce
+    state: present
+
+- name: install docker-ce
+  yum:
+    name: docker-ce,python-docker-py
+    state: latest
+
+- name: put ionsquare in the docker group
+  user:
+    name: ionsquare
+    groups: docker
+
+- import_tasks: firewall.yaml
+
+- name: enable and start docker service
+  service:
+    name: docker
+    enabled: true
+    state: started
+
+- name: create directory for docker image exports /var/local/dockerimages
+  file:
+    path: /var/local/dockerimages
+    state: directory
+    mode: 0755

@@ -1,0 +1,16 @@
+#
+# Role to startup diaspora docker
+#
+---
+- name: eventually create and definitely start diaspora container
+  docker_container:
+    name: "diaspora-{{ diaspora_version }}"
+    image: "{{ docker_repoprefix }}/diaspora:{{ diaspora_version }}"
+    published_ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - "diaspora-uploads:/var/local/diaspora/diaspora/public/uploads"
+      - "diaspora-logs:/var/local/diaspora/diaspora/log"
+    restart_policy: "unless-stopped"
+    state: started
+...

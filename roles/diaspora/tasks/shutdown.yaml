@@ -1,0 +1,15 @@
+#
+# shutdown diaspora container
+#
+---
+- name: check if diaspora container exists
+  shell: docker ps | grep diaspora | wc -l
+  register: docker_ps
+  failed_when: false
+
+- name: stop diaspora container if necessary
+  docker_container:
+    name: diaspora
+    state: stopped
+  when: docker_ps.rc == 0 and docker_ps.stdout != "0"
+...

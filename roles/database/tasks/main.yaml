@@ -1,0 +1,36 @@
+#
+# Role to install postgresql, create the necessary databases and 
+# create and copy, import backups from/into the new host
+#
+---
+- name: install postgres RPM
+  yum:
+    name: postgresql,postgresql-server,postgresql-contrib,python-psycopg2
+    state: latest
+
+- name: check if database must be initialized
+  stat:
+    path: /var/lib/pgsql/data/PG_VERSION
+  register: pg_version_stat
+
+- name: eventually initialize database
+  command: postgresql-setup initdb
+  when: not pg_version_stat.stat.exists
+
+- name: copy our version of pg_hba.conf to host
+  copy:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    backup: yes
+
+- name: copy our version of postgresql.conf to host
+  copy:
+    src: postgresql.conf
+    dest: /var/lib/pgsql/data/postgresql.conf
+    backup: yes
+
+- name: start and enable postgresql
+  service:
+    name: postgresql
+    state: started
+    enabled: true

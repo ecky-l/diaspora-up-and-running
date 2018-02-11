@@ -1,0 +1,70 @@
+#
+# Role to install the httpd webserver and associate packages
+# (mod_ssl, letsencrypt), copy virtual host configs and create
+# certificates
+#
+---
+- name: install httpd
+  yum:
+    name: httpd,mod_ssl,certbot,python2-certbot-apache
+    state: latest
+
+- name: stat autoindex.conf
+  stat:
+    path: /etc/httpd/conf.d/autoindex.conf
+  register: autoindex_conf_stat
+
+- name: mv autoindex.conf 000-autoindex.conf
+  command: mv /etc/httpd/conf.d/autoindex.conf /etc/httpd/conf.d/000-autoindex.conf
+  when: autoindex_conf_stat.stat.exists
+
+- name: stat ssl.conf
+  stat:
+    path: /etc/httpd/conf.d/ssl.conf
+  register: ssl_conf_stat
+
+- name: mv ssl.conf 020-ssl.conf
+  command: mv /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/020-ssl.conf
+  when: ssl_conf_stat.stat.exists
+
+- name: stat userdir.conf
+  stat:
+    path: /etc/httpd/conf.d/userdir.conf
+  register: userdir_conf_stat
+
+- name: mv userdir.conf 001-userdir.conf
+  command: mv /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/001-userdir.conf
+  when: userdir_conf_stat.stat.exists
+
+- name: stat welcome.conf
+  stat:
+    path: /etc/httpd/conf.d/welcome.conf
+  register: welcome_conf_stat
+
+- name: mv welcome.conf 002-welcome.conf
+  command: mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/002-welcome.conf
+  when: welcome_conf_stat.stat.exists
+
+- name: enable proxying in selinux
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+  when: ansible_selinux.status != "disabled"
+
+- import_tasks: firewall.yaml
+
+# - name: check if copying of letsencrypt certificates directory is necessary
+#   stat:
+#     path: /etc/letsencrypt
+#   register: letsencrypt_dir
+
+# - name: copy letsencrypt certificates from backup if necessary
+#   copy:
+#     src: letsencrypt_files.tar.gz
+#     dest: /tmp/letsencrypt_files.tar.gz
+#   when: not letsencrypt_dir.stat.exists
+
+# - name: extract letsencrypt certificates to /etc/letsencrypt if necessary
+#   command: tar -C /etc --preserve-permissions --same-owner -xzf /tmp/letsencrypt_files.tar.gz
+#   when: not letsencrypt_dir.stat.exists

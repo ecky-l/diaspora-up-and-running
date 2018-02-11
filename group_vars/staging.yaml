@@ -1,0 +1,9 @@
+#
+# host vars for testing
+#
+---
+testing: "testing."
+testing_rewriteurl: 'testing\.'
+
+diaspora_settings_enable_registrations: "true"
+...

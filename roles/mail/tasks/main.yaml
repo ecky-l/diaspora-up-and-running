@@ -1,0 +1,58 @@
+#
+# Role to create the mail configuration: exim, dovecot, spamassassin, fetchmail
+#
+---
+#- include_tasks: shutdown.yaml
+
+- name: install exim and dovecot
+  yum:
+    name: exim,dovecot
+    state: latest
+
+- name: install spamassassin
+  yum:
+    name: spamassassin
+    state: latest
+
+- name: install clamav antivirus
+  yum:
+    name: clamav,clamav-update,clamav-scanner-systemd,clamav-server-systemd
+    state: latest
+
+- name: enable virus scan in selinux
+  seboolean:
+    name: antivirus_can_scan_system
+    state: yes
+    persistent: yes
+  when: ansible_selinux.status != "disabled"
+
+- name: template out our version of exim.conf to host
+  template:
+    src: exim.conf.j2
+    dest: /etc/exim/exim.conf
+    backup: yes
+
+- name: copy our version of dovecot 10-auth.conf
+  copy:
+    src: dovecot-10-auth.conf
+    dest: /etc/dovecot/conf.d/10-auth.conf
+    backup: yes
+
+- name: copy our version of dovecot 10-mail.conf
+  copy:
+    src: dovecot-10-mail.conf
+    dest: /etc/dovecot/conf.d/10-mail.conf
+    backup: yes
+
+- name: copy our version of dovecot 10-master.conf
+  copy:
+    src: dovecot-10-master.conf
+    dest: /etc/dovecot/conf.d/10-master.conf
+    backup: yes
+
+- import_tasks: firewall.yaml
+
+# TODO mangle the clamd systemctl files to start this thing
+
+- include_tasks: startup.yaml
+...
