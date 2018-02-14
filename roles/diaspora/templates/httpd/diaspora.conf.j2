@@ -40,6 +40,26 @@
 		Require all granted
 	</Directory>
 
+	#
 	# letsencrypt certificate entries go here
-</VirtualHost> 
-
+	#
+	# IMPORTANT:
+	# When you run certbot to acquire a certificate, the directory /etc/letsencrypt
+	# is usually created (if it does not yet exist). Certificates are placed there.
+	# If you have more domains on this server and more letsencrypt certificates, it
+	# might be that the file names are NOT corresponding to your diaspora hostname.
+	# In that case, you need to enter the correct filename here below instead of
+	# variable substitution {{ diaspora_hostname }}, otherwise the certificate
+	# configuration is screwed next time you run the playbook. If the certificate
+	# filenames correspond to your diaspora hostname, you can leave the lines below
+	# as they are.
+	# Before you run certbot the first time, you should comment these lines out, since
+	# certbot analyzes this file and recognizes that the cert files are not present,
+	# which results in an error. After the first run the certs exist and the comments
+	# can be deleted (if certbot modified this file) or commented in again.
+	#
+    Include /etc/letsencrypt/options-ssl-apache.conf
+    SSLCertificateFile /etc/letsencrypt/live/{{ diaspora_hostname }}/cert.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/{{ diaspora_hostname }}/privkey.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/{{ diaspora_hostname }}/chain.pem
+</VirtualHost>
