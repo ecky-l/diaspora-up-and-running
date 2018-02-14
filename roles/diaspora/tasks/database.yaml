@@ -24,7 +24,7 @@
 
 - name: copy diaspora_production.dump to host, if it is to be imported
   copy:
-    src: "diaspora_production.dump"
+    src: "diaspora/diaspora_production.dump"
     dest: "/tmp/diaspora_production.dump"
   when: diasp_prod_is_filled.stdout == "0"
 
