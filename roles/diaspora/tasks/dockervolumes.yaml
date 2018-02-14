@@ -1,0 +1,34 @@
+#
+# create and manage docker volumes for diaspora containers
+#
+---
+- name: ensure the diaspora-uploads volume exists
+  docker_volume:
+    name: diaspora-uploads
+
+- name: ensure the diaspora-logs volume exists
+  docker_volume:
+    name: diaspora-logs
+
+- name: diaspora-uploads volume must be owned by diaspora
+  file:
+    path: "/var/lib/docker/volumes/diaspora-uploads/_data"
+    state: directory
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+- name: diaspora-logs volume must be owned by diaspora
+  file:
+    path: "/var/lib/docker/volumes/diaspora-logs/_data"
+    state: directory
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+- name: unarchive an old uploads.tar.gz to the diaspora-uploads volume, if necessary
+  unarchive:
+    src: diaspora_uploads.tar.gz
+    dest: "/var/lib/docker/volumes/diaspora-logs/_data/"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+    creates: "/var/lib/docker/volumes/diaspora-logs/_data/images"
+...

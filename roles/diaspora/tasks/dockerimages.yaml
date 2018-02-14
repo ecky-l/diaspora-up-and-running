@@ -15,15 +15,15 @@
 - name: make directory for diaspora build output
   file:
     path: /usr/local/src/diaspora/build
-    owner: diaspora
-    group: diaspora
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
     state: directory
 
 - name: make directory for diaspora build config
   file:
     path: /usr/local/src/diaspora/build/config
-    owner: diaspora
-    group: diaspora
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
     state: directory
 
 - name: template the diaspora Dockerfile to host
@@ -35,23 +35,30 @@
   template:
     src: config/database.yml.j2
     dest: /usr/local/src/diaspora/build/config/database.yml
-    owner: diaspora
-    group: diaspora
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
 
 - name: template out diaspora.yml to config build output directory
   template:
     src: config/diaspora.yml.j2
     dest: /usr/local/src/diaspora/build/config/diaspora.yml
-    owner: diaspora
-    group: diaspora
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
 
 - name: template out routes.rb to config build output directory
   template:
     src: config/routes.rb.j2
     dest: /usr/local/src/diaspora/build/config/routes.rb
-    owner: diaspora
-    group: diaspora
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
 
+- name: copy our version of script/server to host (w/o git dependency)
+  copy:
+    src: diaspora/script/server
+    dest: /usr/local/src/diaspora/build/script/server
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+    
 - name: copy our ImageMagick policy.xml to diaspora docker src
   copy:
     src: ImageMagick/policy.xml
@@ -66,6 +73,7 @@
   become: yes
   become_user: postgres
   command: "pg_dump diaspora_production -Ft -f diaspora_production.{{ testing }}{{ '%Y%m%d%H%M%S' | strftime }}.dump"
+  when: not diasp_tgz.stat.exists
 
 - name: use a diaspora-build container to build diaspora version {{ diaspora_version }}
   docker_container:
@@ -90,26 +98,4 @@
     name: "{{ docker_repoprefix }}/diaspora"
     tag: "{{ diaspora_version }}"
     path: /usr/local/src/diaspora
-
-- name: ensure the diaspora-uploads volume exists
-  docker_volume:
-    name: diaspora-uploads
-
-- name: ensure the diaspora-logs volume exists
-  docker_volume:
-    name: diaspora-logs
-
-- name: diaspora-uploads volume must be owned by diaspora
-  file:
-    path: "/var/lib/docker/volumes/diaspora-uploads/_data"
-    state: directory
-    owner: diaspora
-    group: diaspora
-
-- name: diaspora-logs volume must be owned by diaspora
-  file:
-    path: "/var/lib/docker/volumes/diaspora-logs/_data"
-    state: directory
-    owner: diaspora
-    group: diaspora
 ...

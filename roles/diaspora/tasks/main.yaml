@@ -18,13 +18,13 @@
 - name: make sure redis is enabled and started
   service:
     name: redis
-    state: restarted
+    state: started
     enabled: true
 
 - name: ensure group diaspora with gid 1011 exists
   group:
-    name: diaspora
-    gid: 1011
+    name: "{{ diaspora_system_group }}"
+    gid: "{{ diaspora_system_userid }}"
 
 - name: ensure diaspora system user with home /var/local/diaspora
   user:
@@ -46,20 +46,12 @@
 - include_tasks: dockerimages.yaml
   when: diasp_img_exists.stdout == "0"
 
+- include_tasks: dockervolumes.yaml
+
 - name: check if /var/local/diaspora directory must be created
   stat:
     path: /var/local/diaspora
   register: diasp_home
-
-- name: copy diaspora files tar.gz to host if necessary
-  copy:
-    src: diaspora_files.tar.gz
-    dest: /tmp/diaspora_files.tar.gz
-  when: not diasp_home.stat.exists
-
-- name: extract diaspora files if necessary
-  command: tar -C /var/local --preserve-permissions --same-owner -xf /tmp/diaspora_files.tar.gz
-  when: not diasp_home.stat.exists
 
 - name: template out virtualhost config to httpd/conf.d/
   template:

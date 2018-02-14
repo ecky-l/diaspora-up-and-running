@@ -1,11 +1,11 @@
 FROM centos:7
 ENV diaspora_version {{ diaspora_version }}
 {% raw %}
-RUN useradd -m -d /var/local/diaspora -u 1011 diaspora
+RUN useradd -m -d /var/local/diaspora -u {{ diaspora_system_userid }} {{ diaspora_system_user }}
 COPY --chown=diaspora:diaspora build/diaspora-${diaspora_version}.tar.gz /tmp/
 RUN yum -y reinstall filesystem && yum -y update && \
 	yum -y install epel-release && \
-	yum -y install git libcurl libxml2 libffi libxslt wget ImageMagick \
+	yum -y install libcurl libxml2 libffi libxslt wget ImageMagick \
 		nodejs postgresql-libs which bzip2 readline sqlite libyaml openssl && \
 	yum clean all && rm -rf /var/cache/yum && \
     tar -xvz -C /var/local/diaspora --preserve-permissions --same-owner \
