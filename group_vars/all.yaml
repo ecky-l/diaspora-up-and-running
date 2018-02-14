@@ -33,7 +33,7 @@ diaspora_assets_serve: "true"
 diaspora_server_listen: "0.0.0.0:3000"
 diaspora_server_rails_environment: "production"
 
-diaspora_chat_enabled: "true"
+diaspora_chat_enabled: "false"
 diaspora_chat_server_bosh_proxy: "true"
 diaspora_chat_server_bosh_address: "172.17.0.1"
 diaspora_chat_server_bosh_bind: "/http-bind"
