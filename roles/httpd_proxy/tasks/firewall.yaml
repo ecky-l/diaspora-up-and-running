@@ -4,7 +4,7 @@
 ---
 - name: add firewall rule for http
   firewalld:
-    zone: dmz
+    zone: "{{ firewalld_zone }}"
     service: http
     permanent: true
     state: enabled
@@ -12,7 +12,7 @@
 
 - name: add firewall rule for https
   firewalld:
-    zone: dmz
+    zone: "{{ firewalld_zone }}"
     service: https
     permanent: true
     state: enabled

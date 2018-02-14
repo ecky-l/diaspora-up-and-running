@@ -2,8 +2,10 @@
 #
 #
 ---
-testing: "testing."
-testing_rewriteurl: 'testing\.'
+
+# these can be set to match a subdomain that might be used for testing. 
+testing: ""
+testing_rewriteurl: ''
 
 # global firewall zone. should not be "trusted" on a production system
 firewalld_zone: public
@@ -71,7 +73,7 @@ diaspora_mail_sender_address: "{{ diaspora_system_user }}@{{ diaspora_hostname }
 diaspora_mail_method: "smtp"
 
 # your smtp server
-diaspora_mail_smtp_host: "diaspora_hostname"
+diaspora_mail_smtp_host: "{{ diaspora_hostname }}"
 diaspora_mail_smtp_port: 587
 diaspora_mail_smtp_authentication: "plain"
 

@@ -1,7 +1,0 @@
-#
-# host vars for local
-#
----
-testing: "local."
-testing_rewriteurl: 'local\.'
-...

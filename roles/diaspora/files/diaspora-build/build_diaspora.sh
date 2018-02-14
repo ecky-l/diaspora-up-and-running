@@ -34,6 +34,7 @@ fi
 RAILS_ENV=production /var/local/diaspora/diaspora/bin/rake db:migrate
 RAILS_ENV=production /var/local/diaspora/diaspora/bin/rake assets:precompile
 
+cd /var/local/diaspora
 rm -rf /var/local/diaspora/diaspora/.git
 tar -cvz --preserve-permissions --same-owner -f diaspora-${VERSION}.tar.gz \
 	.bashrc .bash_profile .bundle .gem .gnupg .mkshrc .pki .profile .rvm diaspora

@@ -7,6 +7,11 @@
     src: diaspora-build
     dest: /usr/local/src/
 
+- name: create the Dockerfile for build image
+  template:
+    src: diaspora-build/Dockerfile.j2
+    dest: /usr/local/src/diaspora-build/Dockerfile
+
 - name: build the diaspora-build docker image 
   docker_image:
     path: /usr/local/src/diaspora-build
@@ -52,6 +57,13 @@
     owner: "{{ diaspora_system_user }}"
     group: "{{ diaspora_system_group }}"
 
+- name: create script directory
+  file:
+    path: /usr/local/src/diaspora/build/script
+    state: directory
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+    
 - name: copy our version of script/server to host (w/o git dependency)
   copy:
     src: diaspora/script/server

@@ -1,8 +1,9 @@
 FROM centos:7
 ENV diaspora_version {{ diaspora_version }}
-{% raw %}
 RUN useradd -m -d /var/local/diaspora -u {{ diaspora_system_userid }} {{ diaspora_system_user }}
-COPY --chown=diaspora:diaspora build/diaspora-${diaspora_version}.tar.gz /tmp/
+COPY --chown={{ diaspora_system_user }}:{{ diaspora_system_group }} build/diaspora-${diaspora_version}.tar.gz /tmp/
+
+{% raw %}
 RUN yum -y reinstall filesystem && yum -y update && \
 	yum -y install epel-release && \
 	yum -y install libcurl libxml2 libffi libxslt wget ImageMagick \
@@ -16,7 +17,11 @@ COPY policy.xml /etc/ImageMagick/policy.xml
 
 VOLUME /var/local/diaspora/diaspora/public/uploads
 VOLUME /var/local/diaspora/diaspora/log
-USER diaspora:diaspora
+{% endraw %}
+
+USER {{ diaspora_system_user }}:{{ diaspora_system_group }}
+
+{% raw %}
 WORKDIR /var/local/diaspora/diaspora
 ENTRYPOINT ["/bin/bash", "-lc", "source /var/local/diaspora/.bash_profile && ./script/server"]
 {% endraw %}

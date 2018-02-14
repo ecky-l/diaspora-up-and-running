@@ -1,7 +1,7 @@
 FROM centos:7
 
 COPY build_diaspora.sh /usr/local/bin/build_diaspora.sh
-RUN useradd -m -d /var/local/diaspora -u 1011 diaspora
+RUN useradd -m -d /var/local/diaspora -u {{ diaspora_system_userid }} {{ diaspora_system_user }}
 RUN yum -y reinstall filesystem && yum -y update && \
 	yum -y install epel-release && \
 	yum -y install tar make automake gcc gcc-c++ git net-tools \
@@ -12,5 +12,5 @@ RUN yum -y reinstall filesystem && yum -y update && \
 	chmod 755 /usr/local/bin/build_diaspora.sh
 
 VOLUME /var/local/diaspora
-USER diaspora:diaspora
+USER {{ diaspora_system_user }}:{{ diaspora_system_group }}
 ENTRYPOINT ["/usr/local/bin/build_diaspora.sh"]
