@@ -95,4 +95,7 @@ diaspora_relay_inbound_subscribe: "true"
 diaspora_relay_inbound_scope: "tags"
 diaspora_relay_inbound_include_user_tags: "true"
 diaspora_relay_inbound_pod_tags: "linux,diaspora"
+
+# mail server used for the mail role
+mail_server: "{{ diaspora_hostname }}"
 ...
