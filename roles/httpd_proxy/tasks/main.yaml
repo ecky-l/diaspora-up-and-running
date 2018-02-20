@@ -54,17 +54,17 @@
 
 - import_tasks: firewall.yaml
 
-# - name: check if copying of letsencrypt certificates directory is necessary
-#   stat:
-#     path: /etc/letsencrypt
-#   register: letsencrypt_dir
+- name: check if copying of letsencrypt certificates directory is necessary
+  stat:
+    path: /etc/letsencrypt
+  register: letsencrypt_dir
 
-# - name: copy letsencrypt certificates from backup if necessary
-#   copy:
-#     src: letsencrypt_files.tar.gz
-#     dest: /tmp/letsencrypt_files.tar.gz
-#   when: not letsencrypt_dir.stat.exists
+- name: copy letsencrypt certificates from backup if necessary
+  copy:
+    src: ../../files/letsencrypt_files.tar.gz
+    dest: /tmp/letsencrypt_files.tar.gz
+  when: not letsencrypt_dir.stat.exists
 
-# - name: extract letsencrypt certificates to /etc/letsencrypt if necessary
-#   command: tar -C /etc --preserve-permissions --same-owner -xzf /tmp/letsencrypt_files.tar.gz
-#   when: not letsencrypt_dir.stat.exists
+- name: extract letsencrypt certificates to /etc/letsencrypt if necessary
+  command: tar -C /etc --preserve-permissions --same-owner -xzf /tmp/letsencrypt_files.tar.gz
+  when: not letsencrypt_dir.stat.exists

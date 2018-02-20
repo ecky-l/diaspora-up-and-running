@@ -1,0 +1,26 @@
+#
+# create diaspora backup
+#
+---
+- name: create diaspora db dump
+  become: yes
+  become_user: postgres
+  command: pg_dump diaspora_production -Ft -f diaspora_production.dump
+
+- name: fetch diaspora db dump
+  fetch:
+    src: /var/lib/pgsql/diaspora_production.dump
+    dest: files/diaspora_production.dump
+    flat: yes
+
+- name: create backup of diaspora upload volume
+  command: tar --preserve-permissions --same-owner -czf /tmp/diaspora_uploads.tar.gz images tmp
+  args:
+    chdir: /var/lib/docker/volumes/diaspora-uploads/_data
+
+- name: fetch diaspora upload volume backup
+  fetch:
+    src: /tmp/diaspora_uploads.tar.gz
+    dest: files/diaspora_uploads.tar.gz
+    flat: yes
+...

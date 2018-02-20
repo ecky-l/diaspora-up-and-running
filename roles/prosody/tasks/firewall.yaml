@@ -1,0 +1,18 @@
+#
+# firewall rules for prosody
+#
+---
+- name: add firewall rule for xmpp-client
+  firewalld:
+    zone: "{{ firewalld_zone }}"
+    service: xmpp-client
+    permanent: true
+    state: enabled
+
+- name: add firewall rule for xmpp-server
+  firewalld:
+    zone: "{{ firewalld_zone }}"
+    service: xmpp-server
+    permanent: true
+    state: enabled
+...

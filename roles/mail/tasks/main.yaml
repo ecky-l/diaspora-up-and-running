@@ -54,5 +54,5 @@
 
 # TODO mangle the clamd systemctl files to start this thing
 
-- include_tasks: startup.yaml
+- import_tasks: startup.yaml
 ...

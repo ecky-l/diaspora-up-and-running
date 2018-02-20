@@ -1,13 +1,10 @@
 #
-# test playbook
+# playbook to backup diaspora
 #
----
 - hosts: "{{ diaspora_hosts }}"
   gather_facts: yes
   any_errors_fatal: true
   remote_user: root
   roles:
-    - mail # optional
-    - prosody
-    - diaspora
-...
+    - shutdown_services
+    - diaspora_backup

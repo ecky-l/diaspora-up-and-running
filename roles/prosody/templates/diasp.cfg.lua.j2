@@ -1,0 +1,76 @@
+-- Section for VirtualHost example.com
+
+VirtualHost "{{ diaspora_hostname}}"
+	http_host = "{{ diaspora_hostname }}"
+	--enabled = false -- Remove this line to enable this host
+	modules_enabled = {
+		"cloud_notify";
+		"smacks";
+		"smacks_offline";
+		"pinger";
+		"diaspora_contacts";
+		"presence";
+		"offline";
+
+		"roster"; 		-- Allow users to have a roster. Recommended ;)
+		"saslauth";
+		"c2s";
+		"s2s";
+		"pep"; 			-- Enables users to publish their mood, activity, playing music and more
+		"version"; 		-- Replies to server version requests
+		"uptime"; 		-- Report how long server has been running
+		"time"; 		-- Let others know the time here on this server
+		"ping"; 		-- Replies to XMPP pings with pongs
+		"http_upload";
+		"csi"; 			-- client state indication XEP-0352
+		
+		"proxy65";
+		"blocking";
+		"carbons"
+	}
+	
+	authentication = "diaspora"
+	auth_diaspora = { 
+		driver = "PostgreSQL";
+		database = "diaspora_production";
+		username = "diaspora";
+		password = "diaspora"; 
+		host = "127.0.0.1";
+		port = 5432;
+	}
+
+	-- Assign this host a certificate for TLS, otherwise it would use the one
+	-- set in the global section (if any).
+	-- Note that old-style SSL on port 5223 only supports one certificate, and will always
+	-- use the global one.
+	ssl = {
+		key = "/etc/letsencrypt/live/{{ diaspora_hostname }}/privkey.pem";
+		certificate = "/etc/letsencrypt/live/{{ diaspora_hostname }}/fullchain.pem";
+	};
+
+	c2s_require_encryption = true;
+	s2s_require_encryption = true;
+	s2s_secure_auth = true;
+
+	http_upload_allowed_file_types = { "image/*", "text/plain" };
+	http_upload_file_size_limit = 100000;
+
+------ Components ------
+-- You can specify components to add hosts that provide special services,
+-- like multi-user conferences, and transports.
+-- For more information on components, see http://prosody.im/doc/components
+
+---Set up a MUC (multi-user chat) room server on conference.example.com:
+--Component "conference.example.com" "muc"
+
+-- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
+--Component "proxy.example.com" "proxy65"
+
+---Set up an external component (default component port is 5347)
+--
+-- External components allow adding various services, such as gateways/
+-- transports to other networks like ICQ, MSN and Yahoo. For more info
+-- see: http://prosody.im/doc/components#adding_an_external_component
+--
+--Component "gateway.example.com"
+--	component_secret = "password"

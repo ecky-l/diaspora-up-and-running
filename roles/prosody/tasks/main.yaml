@@ -1,0 +1,60 @@
+#
+# Role to install and configure prosody, to work with diaspora database
+#
+---
+- name: install lua dependencies
+  yum:
+    name: lua,lua-bitop,lua-dbi,lua-expat,lua-filesystem,lua-sec,lua-socket,luarocks,bcrypt,mercurial
+
+- name: install prosody itself
+  yum:
+    name: prosody
+    state: latest
+
+- name: install luarocks and devel dependencies
+  yum:
+    name: lua-devel,openssl-devel,gcc,luarocks
+    state: latest
+
+- name: install luarocks bcrypt module if necessary
+  command: luarocks install bcrypt
+  args:
+    creates: /usr/lib64/luarocks/rocks/bcrypt
+
+- name: make directory for additional prosody modules
+  file:
+    path: /usr/local/lib64/prosody
+    state: directory
+
+- name: checkout the prosody modules if not exist already
+  hg:
+    repo: https://hg.prosody.im/prosody-modules/
+    dest: /usr/local/lib64/prosody/modules
+
+- name: copy mod_auth_diaspora.lua to additional modules directory
+  copy:
+    src: mod_auth_diaspora.lua
+    dest: /usr/local/lib64/prosody/modules/mod_auth_diaspora.lua
+    backup: yes
+
+- name: copy mod_diaspora_contacts.lua tto additional modules directory
+  copy:
+    src: mod_diaspora_contacts.lua
+    dest: /usr/local/lib64/prosody/modules/mod_diaspora_contacts.lua
+    backup: yes
+
+- name: template prosody.cfg.lua to the servers /etc/prosody/
+  template:
+    src: prosody.cfg.lua.j2
+    dest: "/etc/prosody/prosody.cfg.lua"
+    backup: yes
+
+- name: template diasp.cfg.lua to the servers /etc/prosody/conf.d/
+  template:
+    src: diasp.cfg.lua.j2
+    dest: "/etc/prosody/conf.d/diasp.{{ testing }}e-lehmann.de.cfg.lua"
+    backup: yes
+
+- import_tasks: firewall.yaml
+- import_tasks: startup.yaml
+...

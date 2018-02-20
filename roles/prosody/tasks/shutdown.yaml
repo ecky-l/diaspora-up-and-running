@@ -1,0 +1,11 @@
+#
+# shutdown prosody service
+#
+---
+- name: shutdown prosody service
+  service:
+    name: prosody
+    state: stopped
+  register: cmd_result
+  #failed_when: "cmd_result.msg != '' and 'failed' in cmd_result.msg"
+...

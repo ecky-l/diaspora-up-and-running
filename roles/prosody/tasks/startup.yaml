@@ -1,0 +1,10 @@
+#
+# startup prosody
+#
+---
+- name: ensure the prosody service is running and enabled
+  service:
+    name: prosody
+    state: started
+    enabled: yes
+...
