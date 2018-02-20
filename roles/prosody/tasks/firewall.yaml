@@ -8,6 +8,7 @@
     service: xmpp-client
     permanent: true
     state: enabled
+    immediate: yes
 
 - name: add firewall rule for xmpp-server
   firewalld:
@@ -15,4 +16,5 @@
     service: xmpp-server
     permanent: true
     state: enabled
+    immediate: yes
 ...
