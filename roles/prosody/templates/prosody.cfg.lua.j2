@@ -99,8 +99,8 @@ https_ports = { 5281 }
 http_interfaces = { "*" }
 https_ssl = {
 	[5281] = {
-		key = "/etc/letsencrypt/live/{{ diaspora_hostname }}/privkey.pem";
-		certificate = "/etc/letsencrypt/live/{{ diaspora_hostname }}/fullchain.pem";
+		key = "{{ prosody_ssl_key }}";
+		certificate = "{{ prosody_ssl_cert }}";
 	};
 }
 

@@ -38,10 +38,16 @@
     dest: /etc/dovecot/conf.d/10-auth.conf
     backup: yes
 
-- name: copy our version of dovecot 10-mail.conf
-  copy:
-    src: dovecot-10-mail.conf
+- name: template our version of dovecot 10-mail.conf
+  template:
+    src: dovecot-10-mail.conf.j2
     dest: /etc/dovecot/conf.d/10-mail.conf
+    backup: yes
+
+- name: template our version of dovecot 10-ssl.conf
+  template:
+    src: dovecot-10-ssl.conf.j2
+    dest: /etc/dovecot/conf.d/10-ssl.conf
     backup: yes
 
 - name: copy our version of dovecot 10-master.conf

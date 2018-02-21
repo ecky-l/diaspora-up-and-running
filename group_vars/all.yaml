@@ -98,4 +98,10 @@ diaspora_relay_inbound_pod_tags: "linux,diaspora"
 
 # mail server used for the mail role
 mail_server: "{{ diaspora_hostname }}"
+mail_imap_ssl_cert: /path/to/your/mail/ssl/cert.pem
+mail_imap_ssl_key: /path/to/your/mail/ssl/key.pem
+mail_imap_maillocation: "maildir:~/.Mail"
+
+prosody_ssl_key: /path/to/prosody/ssl/key
+prosody_ssl_cert: /path/to/prosody/ssl/cert
 ...
