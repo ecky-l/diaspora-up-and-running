@@ -59,7 +59,6 @@ primary_hostname = {{ mail_server }}
 domainlist local_domains = @ : localhost : localhost.localdomain : {{ mail_server }}
 domainlist relay_to_domains = {{ mail_server }}
 
-{% raw %}
 hostlist   relay_from_hosts = localhost : 127.0.0.1 : ::1 : 172.17.0.0/16
 # (We rely upon hostname resolution working for localhost, because the default
 # uncommented configuration needs to work in IPv4-only environments.)
@@ -155,9 +154,10 @@ tls_advertise_hosts = *
 # need the first setting, or in separate files, in which case you need both
 # options.
 
-tls_certificate = /etc/pki/tls/certs/exim.pem
-tls_privatekey = /etc/pki/tls/private/exim.pem
+tls_certificate = {{ mail_ssl_cert }}
+tls_privatekey = {{ mail_ssl_key }}
 
+{% raw %}
 # In order to support roaming users who wish to send email from anywhere,
 # you may want to make Exim listen on other ports as well as port 25, in
 # case these users need to send email from a network that blocks port 25.
