@@ -27,8 +27,8 @@
 - name: unarchive an old uploads.tar.gz to the diaspora-uploads volume, if necessary
   unarchive:
     src: "diaspora/diaspora_uploads.tar.gz"
-    dest: "/var/lib/docker/volumes/diaspora-logs/_data/"
+    dest: "/var/lib/docker/volumes/diaspora-uploads/_data/"
     owner: "{{ diaspora_system_user }}"
     group: "{{ diaspora_system_group }}"
-    creates: "/var/lib/docker/volumes/diaspora-logs/_data/images"
+    creates: "/var/lib/docker/volumes/diaspora-uploads/_data/images"
 ...
