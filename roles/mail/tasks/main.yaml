@@ -32,6 +32,12 @@
     dest: /etc/exim/exim.conf
     backup: yes
 
+- name: copy exim/filters file for spamassassin
+  copy:
+    src: exim-filters
+    dest: /etc/exim/filters
+    backup: yes
+
 - name: copy our version of dovecot 10-auth.conf
   copy:
     src: dovecot-10-auth.conf
