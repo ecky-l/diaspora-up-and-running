@@ -69,7 +69,7 @@ diaspora_settings_default_metas_description: "diaspora* is the online social wor
 diaspora_mail_enable: "true"
 
 # the sender address for mail from diaspora. Must be valid with the mail server
-diaspora_mail_sender_address: "{{ diaspora_system_user }}@{{ diaspora_hostname }}"
+diaspora_mail_sender_address: "{{ diaspora_system_user }}@{{ mail_hostname }}"
 diaspora_mail_method: "smtp"
 
 # your smtp server
@@ -98,8 +98,14 @@ diaspora_relay_inbound_pod_tags: "linux,diaspora"
 
 # mail server used for the mail role
 mail_server: "{{ diaspora_hostname }}"
+
+# this is the domain for which the mailserver accepts mail. Might be different from mail_server
+mail_hostname: "{{ diaspora_hostname }}"
+
+# ssl certificates and keys. The cert should have mail_server in its CN
 mail_ssl_cert: /path/to/your/mail/ssl/cert.pem
 mail_ssl_key: /path/to/your/mail/ssl/key.pem
+
 mail_imap_maillocation: "maildir:~/.Mail"
 
 prosody_ssl_key: /path/to/prosody/ssl/key

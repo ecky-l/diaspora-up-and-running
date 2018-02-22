@@ -48,7 +48,7 @@ system_filter=/etc/exim/filters
 # uname() function is called to obtain the name. In many cases this does
 # the right thing and you need not set anything explicitly.
 
-primary_hostname = {{ mail_server }}
+primary_hostname = {{ mail_hostname }}
 
 
 # The next three settings create two lists of domains and one list of hosts.
@@ -56,8 +56,8 @@ primary_hostname = {{ mail_server }}
 # +local_domains, +relay_to_domains, and +relay_from_hosts, respectively. They
 # are all colon-separated lists:
 
-domainlist local_domains = @ : localhost : localhost.localdomain : {{ mail_server }}
-domainlist relay_to_domains = {{ mail_server }}
+domainlist local_domains = @ : localhost : localhost.localdomain : {{ mail_hostname }}
+domainlist relay_to_domains = {{ mail_hostname }}
 
 hostlist   relay_from_hosts = localhost : 127.0.0.1 : ::1 : 172.17.0.0/16
 # (We rely upon hostname resolution working for localhost, because the default
