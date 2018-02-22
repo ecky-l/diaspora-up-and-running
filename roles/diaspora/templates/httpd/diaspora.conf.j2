@@ -58,8 +58,8 @@
 	# which results in an error. After the first run the certs exist and the comments
 	# can be deleted (if certbot modified this file) or commented in again.
 	#
-    Include /etc/letsencrypt/options-ssl-apache.conf
-    SSLCertificateFile /etc/letsencrypt/live/{{ diaspora_hostname }}/cert.pem
-    SSLCertificateKeyFile /etc/letsencrypt/live/{{ diaspora_hostname }}/privkey.pem
-    SSLCertificateChainFile /etc/letsencrypt/live/{{ diaspora_hostname }}/chain.pem
+    Include {{ httpd_virthost_ssl_options_file }}
+    SSLCertificateFile {{ httpd_virthost_ssl_cert }}
+    SSLCertificateKeyFile {{ httpd_virthost_ssl_key }}
+    SSLCertificateChainFile {{ httpd_virthost_ssl_certchain }}
 </VirtualHost>
