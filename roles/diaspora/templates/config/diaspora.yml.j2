@@ -78,7 +78,7 @@ configuration: ## Section
       ## it to 25 and more on a medium-sized pod. This applies per started
       ## Sidekiq worker, so if you set it to 25 and start two workers, you'll
       ## process up to 50 jobs in parallel.
-      #concurrency: 5
+      concurrency: {{ diaspora_sidekiq_poolsize }}
 
       ## Number of times a job is retried (default=10).
       ## There's an exponential effect to this: if you set this too high you

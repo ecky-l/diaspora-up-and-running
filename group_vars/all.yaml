@@ -29,6 +29,8 @@ diaspora_url: "https://{{ diaspora_hostname }}/"
 diaspora_db_host: "172.17.0.1"
 diaspora_redis_host: "redis://172.17.0.1"
 
+diaspora_sidekiq_poolsize: 5
+
 diaspora_routes_startpage: "home#default"
 diaspora_assets_serve: "true"
 

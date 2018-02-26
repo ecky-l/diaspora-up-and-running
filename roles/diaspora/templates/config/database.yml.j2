@@ -25,7 +25,7 @@ common: &common
   <<: *postgres
 
   # Should match environment.sidekiq.concurrency
-  #pool: 25
+  pool: {{ diaspora_sidekiq_poolsize }}
   
 ##################################################
 #### CONFIGURE ABOVE #############################
