@@ -9,7 +9,7 @@
 
 - name: stop diaspora container if necessary
   docker_container:
-    name: "diaspora-{{ diaspora_version }}"
+    name: "diaspora-{{ diaspora_old_version }}"
     state: stopped
   when: docker_ps.rc == 0 and docker_ps.stdout != "0"
 ...

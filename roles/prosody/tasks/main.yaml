@@ -52,7 +52,7 @@
 - name: template diasp.cfg.lua to the servers /etc/prosody/conf.d/
   template:
     src: diasp.cfg.lua.j2
-    dest: "/etc/prosody/conf.d/diasp.{{ testing }}e-lehmann.de.cfg.lua"
+    dest: "/etc/prosody/conf.d/{{ diaspora_hostname }}.cfg.lua"
     backup: yes
 
 - import_tasks: firewall.yaml

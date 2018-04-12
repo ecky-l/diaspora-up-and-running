@@ -22,6 +22,7 @@ diaspora_system_group: diaspora
 # The value here is "change_me" (w/o quotes)
 diaspora_system_password: "$6$gIfZDcwDqM.LUtab$W0gfIAXQ1lksYsUUfwpki83kERYEJcZSCe6Nd9u3gT52F.ini8I55yc.B2ypo65lmigdiwvw.xmaUw23woKPE1"
 
+diaspora_old_version: "v0.7.3.0"
 diaspora_version: "v0.7.3.1"
 diaspora_hostname: "my.{{ testing }}pod.address"
 diaspora_rewriteurl: "{{ testing_rewriteurl }}my\\.pod\\.address"
