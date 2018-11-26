@@ -12,10 +12,15 @@
     src: diaspora-build/Dockerfile.j2
     dest: /usr/local/src/diaspora-build/Dockerfile
 
+- name: check whether the diaspora-build image must be built (if container in current version is not present)
+  shell: "docker images --format \"{% raw %}{{.Repository}}:{{.Tag}}{% endraw %}\" | grep 'diaspora-build' | wc -l"
+  register: diasp_build_img_exists
+
 - name: build the diaspora-build docker image 
   docker_image:
     path: /usr/local/src/diaspora-build
     name: "{{ docker_repoprefix }}/diaspora-build"
+  when: diasp_build_img_exists.stdout == "0"
 
 - name: make directory for diaspora build output
   file:
