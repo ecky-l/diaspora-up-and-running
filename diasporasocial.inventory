@@ -1,0 +1,11 @@
+# ===========================================================
+# myservers inventory
+# ===========================================================
+
+# edit that to be your productive server
+[diasporasocial]
+185.228.137.65
+
+# edit that to be your local test instance, e.g. VM
+[local]
+192.168.2.59
