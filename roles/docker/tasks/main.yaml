@@ -33,11 +33,6 @@
     name: docker-ce,python-docker-py
     state: latest
 
-- name: put ionsquare in the docker group
-  user:
-    name: ionsquare
-    groups: docker
-
 - import_tasks: firewall.yaml
 
 - name: enable and start docker service

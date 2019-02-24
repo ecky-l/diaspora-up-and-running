@@ -1,6 +1,9 @@
 #!/bin/bash
-curl -ksSL https://rvm.io/mpapis.asc | gpg2 --import -
+curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+
 curl -L https://s.diaspora.software/1t | bash
+
 source /var/local/diaspora/.rvm/scripts/rvm
 rvm autolibs read-fail
 rvm install 2.4
@@ -17,7 +20,7 @@ git checkout ${VERSION}
 cp -f /var/local/diaspora/script/server /var/local/diaspora/diaspora/script/
 
 # create the tar archive before we create our configs
-tar -cvzf source.tar.gz *
+tar -czf source.tar.gz *
 mv source.tar.gz /var/local/diaspora/diaspora/public/
 
 # copy our changes

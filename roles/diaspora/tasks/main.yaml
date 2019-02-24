@@ -62,13 +62,12 @@
 - name: add ipv4 address of {{ diaspora_url }} to /etc/hosts (used by httpd to determine virtual host)
   lineinfile:
     path: /etc/hosts
-    line: "{{ ansible_default_ipv4['address'] }}    {{ diaspora_url }}"
+    line: "{{ default_ipv4_address }}    {{ diaspora_url }}"
 
 - name: add ipv6 address of {{ diaspora_url }} to /etc/hosts (used by httpd to determine virtual host)
   lineinfile:
     path: /etc/hosts
-    line: "{{ ansible_default_ipv6['address'] }}    {{ diaspora_url }}"
-  when: ansible_default_ipv6['address'] is defined
+    line: "{{ default_ipv6_address }}    {{ diaspora_url }}"
 
 - include_tasks: startup.yaml
 ...

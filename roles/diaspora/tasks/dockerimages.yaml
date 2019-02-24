@@ -89,7 +89,7 @@
 - name: take backup of diaspora production database, if a new must be built (just to be paranoid)
   become: yes
   become_user: postgres
-  command: "pg_dump diaspora_production -Ft -f diaspora_production.{{ testing }}{{ '%Y%m%d%H%M%S' | strftime }}.dump"
+  command: "pg_dump diaspora_production -Ft -f diaspora_production.{{ '%Y%m%d%H%M%S' | strftime }}.dump"
   when: not diasp_tgz.stat.exists
 
 - name: use a diaspora-build container to build diaspora version {{ diaspora_version }}

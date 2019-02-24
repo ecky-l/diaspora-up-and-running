@@ -2,10 +2,8 @@
 #
 #
 ---
-
-# these can be set to match a subdomain that might be used for testing. 
-testing: ""
-testing_rewriteurl: ''
+default_ipv4_address: "{{ ansible_default_ipv4.address }}"
+default_ipv6_address: "{{ ansible_default_ipv6.address }}"
 
 # global firewall zone. should not be "trusted" on a production system
 firewalld_zone: public
@@ -24,8 +22,8 @@ diaspora_system_password: "$6$gIfZDcwDqM.LUtab$W0gfIAXQ1lksYsUUfwpki83kERYEJcZSC
 
 diaspora_old_version: "v0.7.3.0"
 diaspora_version: "v0.7.3.1"
-diaspora_hostname: "my.{{ testing }}pod.address"
-diaspora_rewriteurl: "{{ testing_rewriteurl }}my\\.pod\\.address"
+diaspora_hostname: "my.pod.address"
+diaspora_rewriteurl: "{{ diaspora_hostname.split('.') | join('\\.') }}"
 diaspora_url: "https://{{ diaspora_hostname }}/"
 diaspora_db_host: "172.17.0.1"
 diaspora_redis_host: "redis://172.17.0.1"
