@@ -40,19 +40,6 @@
 
 - import_tasks: firewall.yaml
 
-- name: create containerd.service.d directory for override.conf
-  file:
-    path: /etc/systemd/system/containerd.service.d
-    state: directory
-
-- name: copy overlay dependency override (for bug https://github.com/docker/for-linux/issues/475)
-  copy:
-    src: etc/systemd/system/containerd.service.d/override.conf
-    dest: /etc/systemd/system/containerd.service.d/override.conf
-
-- name: do systemctl reload before startup
-  command: systemctl daemon-reload
-
 - name: enable and start docker service
   service:
     name: docker
