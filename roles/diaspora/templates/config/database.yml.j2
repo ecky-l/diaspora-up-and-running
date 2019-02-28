@@ -12,8 +12,8 @@ postgres: &postgres
   adapter: postgresql
   host: {{ diaspora_db_host }}
   port: 5432
-  username: diaspora
-  password: diaspora
+  username: {{ diaspora_db_user }}
+  password: {{ diaspora_db_passwd }}
 #  encoding: UTF-8
 #  encoding: unicode
 
