@@ -70,4 +70,9 @@
     line: "{{ default_ipv6_address }}    {{ diaspora_url }}"
 
 - include_tasks: startup.yaml
+
+- name: reload ssl proxy
+  service:
+    name: httpd
+    state: reloaded
 ...

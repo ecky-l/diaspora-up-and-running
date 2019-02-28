@@ -105,7 +105,7 @@ mail_domain: "{{ diaspora_hostname }}"
 
 # ssl certificates and keys. The cert should have mail_server in its CN
 # This setup is suited for letsencrypt certificates issued for the mail_server
-mail_ssl_cert: /etc/letsencrypt/live/{{ mail_server }}/cert.pem
+mail_ssl_cert: /etc/letsencrypt/live/{{ mail_server }}/fullchain.pem
 mail_ssl_key: /etc/letsencrypt/live/{{ mail_server }}/privkey.pem
 
 mail_imap_maillocation: "maildir:~/.Mail"
