@@ -67,6 +67,10 @@ diaspora_settings_maintenance_remove_old_users_warn_days: 30
 diaspora_settings_default_metas_title: "diaspora* social network"
 diaspora_settings_default_metas_description: "diaspora* is the online social world where you are in control."
 
+diaspora_settings_welcome_enabled: "true"
+diaspora_settings_welcome_subject: "Welcome Message"
+diaspora_settings_welcome_text: "Hello %{username}, welcome to diaspora."
+
 diaspora_mail_enable: "true"
 
 # the sender address for mail from diaspora. Must be valid with the mail server
