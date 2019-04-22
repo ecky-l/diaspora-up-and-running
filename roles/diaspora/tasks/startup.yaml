@@ -9,8 +9,12 @@
     published_ports:
       - "127.0.0.1:3000:3000"
     volumes:
+      - "{{ diaspora_config_dir }}/diaspora.yml:/var/local/diaspora/diaspora/config/diaspora.yml:ro"
+      - "{{ diaspora_config_dir }}/database.yml:/var/local/diaspora/diaspora/config/database.yml:ro"
+      - "{{ diaspora_config_dir }}/routes.rb:/var/local/diaspora/diaspora/config/routes.rb:ro"
       - "diaspora-uploads:/var/local/diaspora/diaspora/public/uploads"
       - "diaspora-logs:/var/local/diaspora/diaspora/log"
     restart_policy: "unless-stopped"
     state: started
+    restart: true
 ...

@@ -53,6 +53,33 @@
     path: /var/local/diaspora
   register: diasp_home
 
+- name: ensure that the diaspora config directory {{ diaspora_config_dir }} exists
+  file:
+    path: "{{ diaspora_config_dir }}"
+    state: directory
+
+- name: template out database.yml to config build output directory
+  template:
+    src: config/database.yml.j2
+    dest: "{{ diaspora_config_dir }}/database.yml"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+- name: template out diaspora.yml to config build output directory
+  template:
+    src: config/diaspora.yml.j2
+    dest: "{{ diaspora_config_dir }}/diaspora.yml"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+- name: template out routes.rb to config build output directory
+  template:
+    src: config/routes.rb.j2
+    dest: "{{ diaspora_config_dir }}/routes.rb"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+
 - name: template out virtualhost config to httpd/conf.d/
   template:
     src: httpd/diaspora.conf.j2

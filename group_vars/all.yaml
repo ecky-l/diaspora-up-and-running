@@ -10,6 +10,7 @@ firewalld_zone: public
 
 docker_repoprefix: docker.myurl.tld
 
+diaspora_config_dir: /etc/opt/diaspora
 diaspora_system_user: diaspora
 diaspora_system_userid: 1011
 diaspora_system_group: diaspora
