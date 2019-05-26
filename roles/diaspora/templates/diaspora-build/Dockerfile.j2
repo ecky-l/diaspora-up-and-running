@@ -7,6 +7,7 @@ RUN yum -y reinstall filesystem && yum -y update && \
 	yum -y install tar make automake gcc gcc-c++ git net-tools \
 		libcurl-devel libxml2-devel libffi-devel libxslt-devel wget \
 		ImageMagick nodejs postgresql-devel which patch bison bzip2 \
+		autoconf ruby zlib-devel glibc-headers glibc-devel \
 		libtool patch readline-devel sqlite-devel libyaml-devel openssl-devel && \
 	yum clean all && rm -rf /var/cache/yum && \
 	chmod 755 /usr/local/bin/build_diaspora.sh

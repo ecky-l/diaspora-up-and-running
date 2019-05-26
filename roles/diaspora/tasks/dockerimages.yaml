@@ -60,6 +60,27 @@
     src: ImageMagick/policy.xml
     dest: /usr/local/src/diaspora/
 
+- name: template out database.yml to config build output directory
+  template:
+    src: config/database.yml.j2
+    dest: "/usr/local/src/diaspora/build/config/database.yml"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+- name: template out diaspora.yml to config build output directory
+  template:
+    src: config/diaspora.yml.j2
+    dest: "/usr/local/src/diaspora/build/config/diaspora.yml"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
+- name: template out routes.rb to config build output directory
+  template:
+    src: config/routes.rb.j2
+    dest: "/usr/local/src/diaspora/build/config/routes.rb"
+    owner: "{{ diaspora_system_user }}"
+    group: "{{ diaspora_system_group }}"
+
 - name: check if diaspora must be built. That is, if diaspora-{{ diaspora_version }}.tar.gz exists
   stat:
     path: "/usr/local/src/diaspora/build/diaspora-{{ diaspora_version }}.tar.gz"

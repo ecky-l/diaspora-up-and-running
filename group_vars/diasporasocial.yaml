@@ -1,8 +1,8 @@
 
 docker_repoprefix: docker.diasporasocial.net
 diaspora_system_password: "$6$qNnnnUpI9YAkj302$/tZAoZRpkBAFwO3y.RwYw7SMgsPDqn.EIO78kf6J31N.OxQMlT5afnaJy44SnIYpdb1zKmUpFB2y7uR56V0Vc1"
-diaspora_old_version: "v0.7.9.0"
-diaspora_version: "v0.7.10.0"
+diaspora_old_version: "v0.7.10.0"
+diaspora_version: "v0.7.11.0"
 diaspora_hostname: "diasporasocial.net"
 diaspora_rewriteurl: "diasporasocial\\.net"
 diaspora_sidekiq_poolsize: 25
