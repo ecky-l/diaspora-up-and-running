@@ -18,11 +18,12 @@ VERSION=$(git tag | tail -n1)
 if [[ -n "${git_tag+set}" ]]; then
 	VERSION=${git_tag}
 fi
+echo "checking out ${VERSION}"
 git checkout ${VERSION}
 
 cp -f /var/local/diaspora/script/server /var/local/diaspora/diaspora/script/
 
-# create the tar archive before we create our configs
+echo "create the source tar archive before we create our configs"
 tar -czf source.tar.gz *
 mv source.tar.gz /var/local/diaspora/diaspora/public/
 
@@ -42,6 +43,7 @@ RAILS_ENV=production /var/local/diaspora/diaspora/bin/rake assets:precompile
 
 cd /var/local/diaspora
 rm -rf /var/local/diaspora/diaspora/.git
+echo "creating diaspora-${VERSION}.tar.gz"
 tar -cvz --preserve-permissions --same-owner -f diaspora-${VERSION}.tar.gz \
 	.bashrc .bash_profile .bundle .gem .gnupg .mkshrc .pki .profile .rvm diaspora
 rm -rf /var/local/diaspora/{diaspora,.bash_profile,.bashrc,.bundle,.gem,.gnupg,.mkshrc,.pki,.profile,.rvm,.zlogin,.zshrc}
