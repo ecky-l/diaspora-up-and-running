@@ -15,22 +15,4 @@
   postgresql_db:
     name: diaspora_production
     owner: diaspora
-
-- name: check if diaspora_production dump must be imported
-  become: yes
-  become_user: postgres
-  command: psql -qAt diaspora_production -c "select count(*) from information_schema.tables where table_schema = 'public' and table_name = 'comments';"
-  register: diasp_prod_is_filled
-
-- name: copy diaspora_production.dump to host, if it is to be imported
-  copy:
-    src: "diaspora/diaspora_production.dump"
-    dest: "/tmp/diaspora_production.dump"
-  when: diasp_prod_is_filled.stdout == "0"
-
-- name: import diaspora_production db dump if necessary
-  become: yes
-  become_user: postgres
-  command: "pg_restore -d diaspora_production -Ft /tmp/diaspora_production.dump"
-  when: diasp_prod_is_filled.stdout == "0"
 ...
