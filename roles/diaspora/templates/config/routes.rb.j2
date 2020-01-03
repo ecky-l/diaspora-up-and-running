@@ -59,7 +59,6 @@ Rails.application.routes.draw do
   get "aspects" => "streams#aspects", :as => "aspects_stream"
 
   resources :aspects, except: %i(index new edit) do
-    put :toggle_contact_visibility
     put :toggle_chat_privilege
     collection do
       put "order" => :update_order
@@ -74,6 +73,8 @@ Rails.application.routes.draw do
 
 	#Search
 	get 'search' => "search#search"
+
+  get "link" => "links#resolve"
 
   resources :conversations, except: %i(edit update destroy)  do
     resources :messages, only: %i(create)
@@ -118,10 +119,17 @@ Rails.application.routes.draw do
     get "getting_started_completed" => :getting_started_completed
   end
 
+  resource :two_factor_authentication, only: %i[show create destroy] do
+    get :confirm, action: :confirm_2fa
+    post :confirm, action: :confirm_and_activate_2fa
+    get :recovery_codes
+  end
+
   devise_for :users, controllers: {sessions: :sessions}, skip: :registration
   devise_scope :user do
     get "/users/sign_up" => "registrations#new",    :as => :new_user_registration
     post "/users"        => "registrations#create", :as => :user_registration
+    get "/registrations_closed" => "registrations#registrations_closed", :as => :registrations_closed
   end
 
   get "users/invitations"  => "invitations#new",    :as => "new_user_invitation"
@@ -148,6 +156,12 @@ Rails.application.routes.draw do
     post 'users/:id/close_account' => 'users#close_account', :as => 'close_account'
     post 'users/:id/lock_account' => 'users#lock_account', :as => 'lock_account'
     post 'users/:id/unlock_account' => 'users#unlock_account', :as => 'unlock_account'
+    post 'users/:id/make_admin' => 'users#make_admin', :as => 'make_admin'
+    post 'users/:id/remove_admin' => 'users#remove_admin', :as => 'remove_admin'
+    post 'users/:id/make_moderator' => 'users#make_moderator', :as => 'make_moderator'
+    post 'users/:id/remove_moderator' => 'users#remove_moderator', :as => 'remove_moderator'
+    post 'users/:id/make_spotlight' => 'users#make_spotlight', :as => 'make_spotlight'
+    post 'users/:id/remove_spotlight' => 'users#remove_spotlight', :as => 'remove_spotlight'
   end
 
   resource :profile, :only => [:edit, :update]
@@ -165,7 +179,6 @@ Rails.application.routes.draw do
   resources :people, only: %i(show index) do
     resources :status_messages, only: %i(new create)
     resources :photos, except:  %i(new update)
-    get :contacts
     get :stream
     get :hovercard
 
@@ -233,4 +246,5 @@ Rails.application.routes.draw do
   end
 
   get ".well-known/openid-configuration", to: "api/openid_connect/discovery#configuration"
+  get "manifest.json", to: "manifest#show"
 end
