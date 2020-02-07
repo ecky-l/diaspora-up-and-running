@@ -20,6 +20,7 @@ diaspora_system_group: diaspora
 #
 # The value here is "change_me" (w/o quotes)
 diaspora_system_password: "$6$gIfZDcwDqM.LUtab$W0gfIAXQ1lksYsUUfwpki83kERYEJcZSCe6Nd9u3gT52F.ini8I55yc.B2ypo65lmigdiwvw.xmaUw23woKPE1"
+diaspora_homedir: /var/local/diaspora
 
 diaspora_old_version: "v0.7.3.0"
 diaspora_version: "v0.7.3.1"
@@ -54,7 +55,7 @@ diaspora_settings_invitations_count: 10
 diaspora_settings_paypal_donations_enable: "false"
 diaspora_settings_paypal_donations_currency: "USD"
 diaspora_settings_paypal_donations_paypal_hosted_button_id: "change_me"
-diaspora_settings_bitcoin_address: "1BSjZQcENHJ4WK6DhrmvpkefU8uqqpFGnK"
+diaspora_settings_bitcoin_address: "PByXDkpibgHvNk8y9KbpR3ed3zXvMP5HFm"
 diaspora_settings_captcha_enable: "true"
 diaspora_settings_captcha_image_size: "120x20"
 diaspora_settings_captcha_captcha_length: 8

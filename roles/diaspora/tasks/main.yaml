@@ -53,6 +53,11 @@
     path: /var/local/diaspora
   register: diasp_home
 
+- name: copy modified view files
+  copy:
+    src: diaspora
+    dest: /var/local/diaspora/
+
 - name: ensure that the diaspora config directory {{ diaspora_config_dir }} exists
   file:
     path: "{{ diaspora_config_dir }}"

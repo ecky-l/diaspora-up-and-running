@@ -9,6 +9,7 @@
     published_ports:
       - "127.0.0.1:3000:3000"
     volumes:
+      - "/var/local/diaspora/diaspora/app/views/shared/_donatepod.html.haml:/var/local/diaspora/diaspora/app/views/shared/_donatepod.html.haml:ro"
       - "{{ diaspora_config_dir }}/diaspora.yml:/var/local/diaspora/diaspora/config/diaspora.yml:ro"
       - "{{ diaspora_config_dir }}/database.yml:/var/local/diaspora/diaspora/config/database.yml:ro"
       - "{{ diaspora_config_dir }}/routes.rb:/var/local/diaspora/diaspora/config/routes.rb:ro"
