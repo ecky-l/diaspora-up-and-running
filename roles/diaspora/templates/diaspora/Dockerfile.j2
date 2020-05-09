@@ -13,7 +13,7 @@ RUN yum -y reinstall filesystem && yum -y update && \
     	-f /tmp/diaspora-${diaspora_version}.tar.gz && \
     rm -f /tmp/diaspora-${diaspora_version}.tar.gz
 
-COPY policy.xml /etc/ImageMagick/policy.xml
+COPY policy.xml /etc/ImageMagick-6/policy.xml
 
 VOLUME /var/local/diaspora/diaspora/public/uploads
 VOLUME /var/local/diaspora/diaspora/log
