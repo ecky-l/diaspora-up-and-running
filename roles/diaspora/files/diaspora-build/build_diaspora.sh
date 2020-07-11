@@ -9,7 +9,7 @@ curl -L https://s.diaspora.software/1t | bash
 
 source /var/local/diaspora/.rvm/scripts/rvm
 rvm autolibs read-fail
-rvm install 2.4
+rvm install 2.6
 
 git clone -b master https://github.com/diaspora/diaspora.git /var/local/diaspora/diaspora
 
